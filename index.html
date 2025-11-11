@@ -1,170 +1,131 @@
 <!DOCTYPE html>
-<html lang="en-US" dir="ltr">
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>FunSpace: Chat & Connect</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome</title>
 
 <style>
-/* ===== Base ===== */
-* {margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;scroll-behavior:smooth;}
-body {background-color:#fff5f7;color:#222;overflow-x:hidden;}
-
-/* ===== Header ===== */
-header {
-    background:white;
-    box-shadow:0 2px 8px rgba(0,0,0,0.1);
-    padding:20px 50px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    position:fixed;
-    top:0;
-    width:100%;
-    z-index:1000;
-    transition:all 0.3s;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
-header.scrolled {padding:10px 40px; backdrop-filter: blur(8px);}
-header h1 {color:#f43f5e; font-weight:600; letter-spacing:1px; display:flex; align-items:center; gap:10px;}
-header h1 img {width:40px;height:40px;border-radius:50%;}
-nav a {margin-left:25px;text-decoration:none;color:#333;font-weight:500;transition:color 0.3s;}
-nav a:hover {color:#f43f5e;}
 
-/* ===== Hero ===== */
-.hero {height:90vh; display:flex; align-items:center; justify-content:center; text-align:center; position:relative; overflow:hidden; background-size:cover; background-position:center;}
-.hero::before {content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);}
-.hero-content {position:relative; z-index:2; color:white; max-width:700px; padding:20px;}
-.hero-content h2 {font-size:3rem; margin-bottom:15px;}
-.hero-content p {font-size:1.2rem; margin-bottom:25px; line-height:1.6;}
-.hero-content a {background:#f43f5e;color:white;padding:12px 30px;border-radius:8px;font-weight:600;text-decoration:none;transition:all 0.3s;}
-.hero-content a:hover {background:white;color:#f43f5e;transform:translateY(-3px);}
+body, html {
+    height: 100%;
+    overflow: hidden;
+}
 
-/* ===== Middle Section ===== */
-.middle {padding:100px 60px; display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:30px; background:#fdf2f8; text-align:center;}
-.card {background:white;border-radius:12px;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,0.1);transition:transform 0.3s, box-shadow 0.3s;}
-.card:hover {transform:translateY(-10px);box-shadow:0 6px 16px rgba(0,0,0,0.15);}
-.card img {width:100%;height:300px;object-fit:cover;}
-.card h4 {margin:15px 0 10px 0;color:#f43f5e;font-size:1.2rem;}
-.card p {color:#555;font-size:0.95rem; padding:0 10px; margin-bottom:15px;}
+/* SLIDING BACKGROUND */
+.slider {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
 
-/* ===== CTA / Download ===== */
-.download {text-align:center; padding:100px 40px; background: linear-gradient(135deg,#f43f5e,#ff7f50); color:white;}
-.download h3 {font-size:2.4rem; margin-bottom:20px;}
-.download p {margin-bottom:35px; font-size:1.2rem;}
-.download a {display:inline-block;background:white;color:#f43f5e;font-weight:600;padding:14px 35px;border-radius:8px;text-decoration:none;transition:all 0.3s;}
-.download a:hover {background:#fff;color:#ff4b79; transform:translateY(-3px);}
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    animation: fade 20s infinite;
+}
 
-/* ===== Trusted Logos ===== */
-.trust-section {text-align:center; padding:80px 40px;background:white;}
-.trust-section h3 {font-size:2rem;margin-bottom:25px;}
-.trust-logos {display:flex;justify-content:center;flex-wrap:wrap;gap:40px;margin-top:30px;}
-.trust-logos img {width:80px;height:80px;border-radius:12px;object-fit:contain;transition:transform 0.3s;}
-.trust-logos img:hover {transform: scale(1.1);}
+.slide:nth-child(1) {animation-delay: 0s; background-image: url('./images/p1.jpg');}
+.slide:nth-child(2) {animation-delay: 5s; background-image: url('./images/p2.jpg');}
+.slide:nth-child(3) {animation-delay: 10s; background-image: url('./images/p3.jpg');}
+.slide:nth-child(4) {animation-delay: 15s; background-image: url('./images/p4.jpg');}
+.slide:nth-child(1) {animation-delay: 0s; background-image: url('./images/p5.jpg');}
 
-/* ===== Footer ===== */
-footer {background:#222;color:white;text-align:center;padding:40px 20px;font-size:0.9rem;}
 
-/* ===== Responsive ===== */
-@media(max-width:900px){header{flex-direction:column;align-items:flex-start;padding:15px 30px;} nav{display:flex;flex-wrap:wrap;margin-top:10px;} nav a{margin:10px 10px 0 0;} .hero-content h2{font-size:2.2rem;} .hero-content p{font-size:1rem;} .middle,.download,.trust-section{padding:60px 20px;}}
+
+@keyframes fade {
+    0% {opacity: 0;}
+    10% {opacity: 1;}
+    30% {opacity: 1;}
+    40% {opacity: 0;}
+    100% {opacity: 0;}
+}
+
+/* CONTENT BOX */
+.content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    color: white;
+}
+
+h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 18px;
+    margin-bottom: 25px;
+    line-height: 1.4;
+}
+
+button {
+    background: #FF8C00;
+    border: none;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #e67e00;
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .content {
+        width: 100%;
+        background: rgba(0,0,0,0.5);
+    }
+}
 </style>
 </head>
+
 <body>
 
-<header id="header">
-    <h1>FunSpace <img src="https://i.postimg.cc/F7yr9mFD/profileuyo1.jpg" alt="FunSpace Icon"></h1>
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#middle">Explore</a>
-        <a href="#download">Register</a>
-        <a href="#login">Login</a>
-    </nav>
-</header>
+<!-- Sliding Background -->
+<div class="slider">
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+</div>
 
-<section class="hero" id="home">
-    <div class="hero-content">
-        <h2 id="typewriter">Meet Amazing People</h2>
-        <p>Fun, safe, and verified connections near you</p>
-        <a href="#download">📱 Get Started</a>
-    </div>
-</section>
-
-<section class="middle" id="middle">
-    <div class="card"><img src="https://i.postimg.cc/YLgpLB6C/about1-Copy.jpg"><h4>Jessica</h4><p>Adventurous and fun-loving</p></div>
-    <div class="card"><img src="https://i.postimg.cc/MXjZFVh0/cautionimage-Copy.jpg"><h4>Sophia</h4><p>Loves music and nightlife</p></div>
-    <div class="card"><img src="https://i.postimg.cc/QVWNy1Rq/photo1.jpg"><h4>Emma</h4><p>Outgoing and social</p></div>
-    <div class="card"><img src="https://i.postimg.cc/fk0Wrm6F/photo11.jpg"><h4>Olivia</h4><p>Creative and charming</p></div>
-    <div class="card"><img src="https://i.postimg.cc/5jF9RLZT/photo14.jpg"><h4>Ava</h4><p>Fun and energetic</p></div>
-    <div class="card"><img src="https://i.postimg.cc/4nh4SVrD/photo15.jpg"><h4>Mia</h4><p>Loves adventure</p></div>
-</section>
-
-<section class="download" id="download">
-    <h3>Start connecting today</h3>
-    <p>Sign up now and discover amazing people around you.</p>
-    <a href="#register">📱 Register Now</a>
-</section>
-
-<section class="trust-section">
-    <h3>Trusted & Verified Worldwide 🌍</h3>
-    <div class="trust-logos">
-        <img src="https://i.postimg.cc/F1cNpNzz/trustbrand.png" alt="Play Store">
-        <img src="https://i.postimg.cc/bdbpgprd/verified.png" alt="Verified Badge">
-        <img src="https://i.postimg.cc/yW9sjsxB/android.png" alt="Android">
-        <img src="https://i.postimg.cc/146sBsXz/ios.png" alt="iOS">
-    </div>
-</section>
-
-<footer>
-    &copy; 2025 FunSpace. Safe, Secure, and Verified.
-</footer>
+<!-- Text Section -->
+<div class="content">
+    <h2>In FunSpace we provide classic,impressive and sexy ladies<br>pick your match go have fun</h2>
+    <p>We are committed to providing a safe and supportive environment for all users.</p>
+    <button onclick="startApp()">Let's Go</button>
+</div>
 
 <script>
-/* ===== Hero Background Slider ===== */
-const hero = document.querySelector('.hero');
-const heroImages = [
-    'https://i.postimg.cc/c681bwpd/photo20.jpg',
-    'https://i.postimg.cc/LhZ4bLc4/photo21.jpg',
-    'https://i.postimg.cc/XpSNSXbT/photo22.jpg',
-    'https://i.postimg.cc/D8kfkmT9/photo23.jpg',
-    'https://i.postimg.cc/fJnWnks4/photo24.jpg',
-    'https://i.postimg.cc/bscYcdPp/photo25.jpg',
-    'https://i.postimg.cc/tYQRQ7bb/photo26.jpg',
-    'https://i.postimg.cc/cry1y6W1/photo27.jpg',
-    'https://i.postimg.cc/7f8P8b4Z/photo28.jpg',
-    'https://i.postimg.cc/svdfd1zv/photo29.jpg',
-    'https://i.postimg.cc/RN5C5qmW/photo30.jpg',
-    'https://i.postimg.cc/XpSNSXWF/photo31.jpg',
-    'https://i.postimg.cc/QHGNGVD7/photo32.jpg',
-    'https://i.postimg.cc/2VQkzmj3/photo33.jpg',
-    'https://i.postimg.cc/9rdmWVXT/photo35.jpg',
-    'https://i.postimg.cc/Lnt9HR4n/photo36.jpg',
-    'https://i.postimg.cc/RN7SM9CJ/photo37.jpg',
-    'https://i.postimg.cc/xcvf0YjJ/photo38-2.jpg',
-    'https://i.postimg.cc/s1ZfN7tK/photo4.jpg',
-    'https://i.postimg.cc/7bTPW0p9/photo5.jpg'
-];
-let bgIndex = 0;
-function changeHero() { hero.style.backgroundImage = `url(${heroImages[bgIndex]})`; bgIndex=(bgIndex+1)%heroImages.length; }
-changeHero(); setInterval(changeHero, 5000);
-
-/* ===== Typewriter ===== */
-const texts = ["Meet Amazing People", "Discover Fun & Flirty Connections", "Your Social Playground"];
-let tIndex=0,jIndex=0, deleting=false;
-const typeEl=document.getElementById('typewriter');
-function type() {
-    const current=texts[tIndex];
-    if(deleting){ typeEl.textContent=current.slice(0,jIndex--); } 
-    else{ typeEl.textContent=current.slice(0,jIndex++);}
-    if(!deleting&&jIndex===current.length){ deleting=true; setTimeout(type,2000);}
-    else if(deleting&&jIndex===0){ deleting=false; tIndex=(tIndex+1)%texts.length; setTimeout(type,500);}
-    else{ setTimeout(type,deleting?50:100);}
+function startApp() {
+    alert("Button clicked! Connect this to your next page.");
 }
-type();
-
-/* ===== Header Scroll ===== */
-const header = document.getElementById('header');
-window.addEventListener('scroll',()=>{header.classList.toggle('scrolled',window.scrollY>50);});
 </script>
 
 </body>
