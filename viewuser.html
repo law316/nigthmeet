@@ -1,0 +1,251 @@
+<!-- Premium Profile Page — Updated: Sidebar, controllable slider, infinite vertical feed, state search -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premium Profiles</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
+    :root{--accent:#ff6600;--bg:#0d0d0d;--card:#141414;--muted:rgba(255,255,255,0.75)}
+    body{background:var(--bg);color:#fff;min-height:100vh;overflow-y:auto}
+
+    /* Header */
+    header{position:fixed;top:0;left:0;right:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;background:linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.35));backdrop-filter:blur(8px);z-index:60}
+    .brand{display:flex;align-items:center;gap:14px}
+    .brand .logo{font-weight:700;letter-spacing:1px;font-size:20px}
+    .controls{display:flex;align-items:center;gap:10px}
+    .controls button{background:transparent;border:1px solid rgba(255,255,255,0.08);color:var(--muted);padding:9px 14px;border-radius:999px;cursor:pointer}
+    .controls .primary{background:var(--accent);color:#000;border:none}
+
+    /* Layout */
+    .layout{display:flex;gap:20px;padding-top:92px;padding-left:16px;padding-right:16px}
+
+    /* Sidebar */
+    .sidebar{width:260px;background:linear-gradient(180deg,#0f0f0f, #0b0b0b);border-radius:14px;padding:18px;box-shadow:0 8px 30px rgba(0,0,0,0.6);position:sticky;top:100px;height:calc(100vh - 140px);overflow:auto}
+    .sidebar h4{font-size:16px;margin-bottom:12px}
+    .menu{list-style:none}
+    .menu li{padding:10px 12px;border-radius:10px;color:var(--muted);cursor:pointer;margin-bottom:8px}
+    .menu li:hover{background:rgba(255,255,255,0.03);color:#fff}
+
+    /* Main area */
+    .main{flex:1}
+    .filters{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:18px}
+    .filters input,.filters select{padding:12px 14px;border-radius:12px;border:none;background:#0b0b0b;color:#fff;min-width:160px}
+
+    /* Slider area */
+    .slider-wrap{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:18px;border-radius:14px;margin-bottom:18px}
+    .slider-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .slider-controls{display:flex;gap:8px;align-items:center}
+    .icon-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:10px;cursor:pointer;color:var(--muted)}
+
+    .slider{overflow:hidden;border-radius:12px}
+    .track{display:flex;gap:18px;padding:12px;transition:transform .2s ease}
+    .card{min-width:260px;background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,0.6);cursor:pointer}
+    .card img{display:block;width:100%;height:340px;object-fit:cover}
+    .card .meta{padding:12px}
+    .card h3{font-size:18px;margin-bottom:6px}
+    .card p{font-size:13px;color:rgba(255,255,255,0.75)}
+
+    /* Vertical infinite feed (grid) */
+    .feed{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-top:8px}
+    .profile-card{background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.6);}
+    .profile-card img{width:100%;height:260px;object-fit:cover}
+    .profile-card .info{padding:10px}
+    .profile-card h4{margin-bottom:6px}
+    .profile-card p{color:rgba(255,255,255,0.78);font-size:13px}
+
+    /* footer space */
+    footer{height:80px}
+
+    /* Responsive */
+    @media (max-width:900px){.layout{padding-left:12px;padding-right:12px}.sidebar{display:none}.card img{height:260px}}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand"><div class="logo">CodedRuns</div><div style="opacity:.7;font-size:13px">Premium Profiles</div></div>
+  <div class="controls">
+    <button id="toggleAuto" class="icon-btn">Start Auto</button>
+    <button class="icon-btn" id="openSidebar">☰ Menu</button>
+    <button class="icon-btn" onclick="openModal('login')">Log in</button>
+    <button class="primary" onclick="openModal('signup')">Sign up</button>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebarEl">
+    <h4>Quick Menu</h4>
+    <ul class="menu">
+      <li onclick="alert('Contact Admin')">Contact Admin</li>
+      <li onclick="alert('Naughty Users')">Naughty Users</li>
+      <li onclick="alert('Videos')">Videos</li>
+      <li onclick="alert('Channels')">Channels</li>
+      <li onclick="alert('Rooms')">Rooms</li>
+      <li onclick="alert('Video Chats')">Video Chats</li>
+      <li onclick="alert('Nude Chats')">Nude Chats</li>
+      <li onclick="alert('Premium Lounge')">Premium Lounge</li>
+      <li onclick="alert('Verified Creators')">Verified Creators</li>
+    </ul>
+  </aside>
+
+  <main class="main">
+    <!-- Filters -->
+    <div class="filters">
+      <input id="searchName" placeholder="Search by name..." />
+      <select id="cityFilter"><option value="">All Cities</option><option> Lagos</option><option>Abuja</option><option>Port Harcourt</option></select>
+      <select id="ageFilter"><option value="">Age</option><option>18-25</option><option>26-35</option><option>36-45</option></select>
+      <select id="stateFilter">
+        <option value="">State (Nigeria)</option>
+        <option>Abia</option><option>Adamawa</option><option>Akwa Ibom</option><option>Anambra</option>
+        <option>Bauchi</option><option>Bayelsa</option><option>Benue</option><option>Borno</option>
+        <option>Cross River</option><option>Delta</option><option>Ebonyi</option><option>Edo</option>
+        <option>Ekiti</option><option>Enugu</option><option>Gombe</option><option>Imo</option>
+        <option>Jigawa</option><option>Kaduna</option><option>Kano</option><option>Katsina</option>
+        <option>Kebbi</option><option>Kogi</option><option>Kwara</option><option>Lagos</option>
+        <option>Nasarawa</option><option>Niger</option><option>Ogun</option><option>Ondo</option>
+        <option>Osun</option><option>Oyo</option><option>Plateau</option><option>Rivers</option>
+        <option>Sokoto</option><option>Taraba</option><option>Yobe</option><option>Zamfara</option>
+      </select>
+      <button id="applyFilters" style="padding:12px 16px;border-radius:12px;border:none;background:var(--accent);color:#000;cursor:pointer">Apply</button>
+    </div>
+
+    <!-- Slider area -->
+    <div class="slider-wrap">
+      <div class="slider-top">
+        <div style="font-weight:600">Featured Profiles</div>
+        <div class="slider-controls">
+          <button class="icon-btn" id="prev">◀</button>
+          <button class="icon-btn" id="next">▶</button>
+        </div>
+      </div>
+
+      <div class="slider" id="slider">
+        <div class="track" id="track">
+          <!-- Repeated demo cards (will duplicate for smooth auto scroll when enabled) -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Infinite vertical feed -->
+    <div id="feed" class="feed" aria-live="polite">
+      <!-- profile cards appended here -->
+    </div>
+
+    <footer></footer>
+  </main>
+</div>
+
+<!-- Modal -->
+<div style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;z-index:120" id="modalBg">
+  <div style="width:90%;max-width:420px;background:#0f0f0f;padding:22px;border-radius:14px">
+    <h3 id="modalTitle">Login</h3>
+    <input id="modalEmail" placeholder="Email" style="width:100%;padding:12px;border-radius:10px;border:none;margin-top:12px;background:#080808;color:#fff" />
+    <input id="modalPass" placeholder="Password" type="password" style="width:100%;padding:12px;border-radius:10px;border:none;margin-top:12px;background:#080808;color:#fff" />
+    <div style="display:flex;gap:10px;margin-top:14px">
+      <button style="flex:1;padding:12px;border-radius:10px;border:none;background:var(--accent);color:#000" onclick="closeModal()">Continue</button>
+      <button style="flex:1;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--muted)" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Demo dataset (imaginary profiles). In production this would come from the backend.
+  const demoProfiles = Array.from({length:30}).map((_,i)=>({
+    id:i+1,
+    name:["Amara","Victoria","Nina","Sasha","Chioma","Angela","Tonia","Bella","Mary"][i%9],
+    age:18 + (i%15),
+    city:["Lagos","Abuja","Port Harcourt","Kaduna"][i%4],
+    state:["Lagos","Abia","Rivers","Enugu","Kano","Kaduna"][i%6],
+    img:`https://picsum.photos/seed/${i+10}/600/900`
+  }));
+
+  // Populate slider track with a copy of featured cards (first 8)
+  const track = document.getElementById('track');
+  function makeCard(p){
+    const el = document.createElement('div'); el.className='card';
+    el.innerHTML = `<img src="${p.img}" alt="${p.name}"/><div class="meta"><h3>${p.name}, ${p.age}</h3><p>${p.city} • ${p.state}</p></div>`;
+    el.onclick = ()=>alert(`${p.name} — Contact / View profile`);
+    return el;
+  }
+  // fill track twice to give room for smooth auto scroll
+  const featured = demoProfiles.slice(0,8);
+  featured.forEach(p=>track.appendChild(makeCard(p)));
+  featured.forEach(p=>track.appendChild(makeCard(p)));
+
+  // slider controls
+  const trackEl = document.getElementById('track');
+  let position = 0; // px
+  const step = 280; // card width + gap approx
+  document.getElementById('next').onclick = ()=>{ position -= step; trackEl.style.transform = `translateX(${position}px)` }
+  document.getElementById('prev').onclick = ()=>{ position += step; trackEl.style.transform = `translateX(${position}px)` }
+
+  // Auto scroll toggle
+  let autoScroll = false;
+  let autoInterval;
+  const toggleBtn = document.getElementById('toggleAuto');
+  toggleBtn.addEventListener('click', ()=>{
+    autoScroll = !autoScroll;
+    toggleBtn.innerText = autoScroll ? 'Stop Auto' : 'Start Auto';
+    if(autoScroll){ autoInterval = setInterval(()=>{ position -= 2; trackEl.style.transform = `translateX(${position}px)` },20) }
+    else clearInterval(autoInterval);
+  });
+
+  // allow drag to move slider (mouse + touch)
+  let isDown=false,startX,scrollX;
+  trackEl.parentElement.addEventListener('mousedown',e=>{isDown=true;startX=e.pageX;trackEl.style.transition='none'});
+  window.addEventListener('mouseup',()=>{isDown=false;trackEl.style.transition='transform .2s ease'});
+  window.addEventListener('mousemove',e=>{ if(!isDown) return; const dx=e.pageX - startX; startX = e.pageX; position += dx; trackEl.style.transform = `translateX(${position}px)` });
+  // touch
+  trackEl.parentElement.addEventListener('touchstart',e=>{startX=e.touches[0].pageX;trackEl.style.transition='none'});
+  trackEl.parentElement.addEventListener('touchmove',e=>{const dx=e.touches[0].pageX - startX; startX = e.touches[0].pageX; position += dx; trackEl.style.transform = `translateX(${position}px)`});
+  
+  // Sidebar toggle for small screens
+  document.getElementById('openSidebar').onclick = ()=>{
+    const s = document.getElementById('sidebarEl');
+    if(s.style.display === 'none' || getComputedStyle(s).display === 'none'){ s.style.display='block'; s.scrollTop = 0 } else s.style.display='none'
+  }
+
+  // Build infinite vertical feed: append initial batch and load more on scroll
+  const feed = document.getElementById('feed');
+  let feedIndex = 0;
+  function appendBatch(n=12){
+    for(let i=0;i<n;i++){
+      const p = demoProfiles[feedIndex % demoProfiles.length];
+      const card = document.createElement('div'); card.className='profile-card';
+      card.innerHTML = `<img src="${p.img}"/><div class="info"><h4>${p.name}, ${p.age}</h4><p>${p.city} • ${p.state}</p></div>`;
+      card.onclick = ()=>alert(`${p.name} — View profile / contact`);
+      feed.appendChild(card);
+      feedIndex++;
+    }
+  }
+  appendBatch(18);
+  window.addEventListener('scroll', ()=>{ if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 800){ appendBatch(12) } });
+
+  // Filters: simple client-side filter by name/age/city/state
+  document.getElementById('applyFilters').onclick = ()=>{
+    const name = document.getElementById('searchName').value.toLowerCase();
+    const city = document.getElementById('cityFilter').value.trim();
+    const age = document.getElementById('ageFilter').value;
+    const state = document.getElementById('stateFilter').value;
+    feed.innerHTML=''; feedIndex=0;
+    const filtered = demoProfiles.filter(p=>{
+      if(name && !p.name.toLowerCase().includes(name)) return false;
+      if(city && p.city.trim()!==city.trim()) return false;
+      if(state && p.state!==state) return false;
+      if(age){ if(age==='18-25' && !(p.age>=18 && p.age<=25)) return false; if(age==='26-35' && !(p.age>=26 && p.age<=35)) return false; if(age==='36-45' && !(p.age>=36 && p.age<=45)) return false }
+      return true;
+    });
+    // populate feed with filtered data repeating to allow long scroll
+    for(let i=0;i<50;i++){ const p=filtered[i % filtered.length || 0]; if(!p) break; const card=document.createElement('div');card.className='profile-card';card.innerHTML=`<img src="${p.img}"/><div class=\"info\"><h4>${p.name}, ${p.age}</h4><p>${p.city} • ${p.state}</p></div>`;feed.appendChild(card)}
+  }
+
+  // Modal controls
+  function openModal(type){document.getElementById('modalBg').style.display='flex';document.getElementById('modalTitle').innerText = type==='login'? 'Login':'Sign Up'}
+  function closeModal(){document.getElementById('modalBg').style.display='none'}
+  window.openModal = openModal; window.closeModal = closeModal;
+
+</script>
+</body>
+</html>
